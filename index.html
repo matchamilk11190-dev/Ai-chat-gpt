@@ -1,0 +1,1157 @@
+<!DOCTYPE html>
+<html lang="en" class="dark">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>WormGPT Red Ultra - Next-Gen AI Platform</title>
+    
+    <!-- Tailwind CSS CDN -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script>
+        tailwind.config = {
+            darkMode: 'class',
+            theme: {
+                extend: {
+                    colors: {
+                        dark: {
+                            base: '#09090b',
+                            card: '#111115',
+                            sidebar: '#0d0d12',
+                            border: '#22222d',
+                            hover: '#1b1b24',
+                            accent: '#ff2a4b'
+                        }
+                    },
+                    boxShadow: {
+                        'neon-red': '0 0 15px rgba(255, 42, 75, 0.35), 0 0 30px rgba(255, 42, 75, 0.15)',
+                        'neon-glow': '0 0 25px rgba(255, 42, 75, 0.5)'
+                    }
+                }
+            }
+        }
+    </script>
+    <!-- FontAwesome for icons -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <!-- Google Fonts Inter -->
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&family=JetBrains+Mono:wght@400;500;600&display=swap" rel="stylesheet">
+    <!-- Marked.js for Markdown Rendering -->
+    <script src="https://cdn.jsdelivr.net/npm/marked/marked.min.js"></script>
+    <!-- Highlight.js for Syntax Highlighting -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.7.0/styles/atom-one-dark.min.css">
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.7.0/highlight.min.js"></script>
+
+    <style>
+        body {
+            font-family: 'Inter', sans-serif;
+            background-color: #09090b;
+            color: #e4e4e7;
+        }
+        
+        pre code {
+            font-family: 'JetBrains Mono', monospace !important;
+        }
+
+        /* Custom scrollbar */
+        ::-webkit-scrollbar {
+            width: 6px;
+            height: 6px;
+        }
+        ::-webkit-scrollbar-track {
+            background: #09090b;
+        }
+        ::-webkit-scrollbar-thumb {
+            background: #22222d;
+            border-radius: 4px;
+        }
+        ::-webkit-scrollbar-thumb:hover {
+            background: #ff2a4b;
+        }
+
+        .red-gradient-text {
+            background: linear-gradient(135deg, #ff4b5c 0%, #ff2a4b 50%, #990011 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+
+        .red-border-glow {
+            border: 1px solid rgba(255, 42, 75, 0.3);
+            box-shadow: 0 0 15px rgba(255, 42, 75, 0.15);
+        }
+
+        .lightning-active {
+            animation: pulseGlow 1.8s infinite alternate;
+        }
+
+        @keyframes pulseGlow {
+            0% {
+                box-shadow: 0 0 8px rgba(255, 42, 75, 0.3);
+                border-color: rgba(255, 42, 75, 0.5);
+            }
+            100% {
+                box-shadow: 0 0 20px rgba(255, 42, 75, 0.8), 0 0 35px rgba(255, 42, 75, 0.4);
+                border-color: rgba(255, 42, 75, 1);
+            }
+        }
+
+        .typing-cursor::after {
+            content: '▋';
+            animation: blink 1s infinite;
+            color: #ff2a4b;
+        }
+
+        @keyframes blink {
+            0%, 100% { opacity: 1; }
+            50% { opacity: 0; }
+        }
+    </style>
+</head>
+<body class="h-screen flex overflow-hidden bg-dark-base text-zinc-200">
+
+    <!-- LEFT SIDEBAR -->
+    <aside id="sidebar" class="w-64 bg-dark-sidebar border-r border-dark-border flex flex-col justify-between transition-all duration-300 z-30 absolute md:relative h-full -translate-x-full md:translate-x-0">
+        <!-- Top Section -->
+        <div class="p-3 flex flex-col h-full overflow-hidden">
+            <!-- Brand Logo & New Chat -->
+            <div class="flex items-center justify-between mb-3 px-2 pt-1">
+                <div class="flex items-center gap-2.5">
+                    <!-- Red Devil OpenAI Logo -->
+                    <div class="relative w-8 h-8 flex items-center justify-center">
+                        <svg class="w-8 h-8 text-red-600 drop-shadow-[0_0_8px_rgba(255,42,75,0.8)]" viewBox="0 0 100 100" fill="none" xmlns="http://www.w3.org/2000/svg">
+                            <!-- Horns -->
+                            <path d="M 28 32 C 22 18, 12 12, 16 5 C 24 10, 32 20, 34 28 Z" fill="#ff2a4b"/>
+                            <path d="M 72 32 C 78 18, 88 12, 84 5 C 76 10, 68 20, 66 28 Z" fill="#ff2a4b"/>
+                            <!-- Main Swirl Body (OpenAI inspired geometry) -->
+                            <path d="M50 22 C34 22 22 34 22 50 C22 66 34 78 50 78 C66 78 78 66 78 50 C78 44 76 38 72 34" stroke="#ff2a4b" stroke-width="7" stroke-linecap="round"/>
+                            <path d="M50 32 C40 32 32 40 32 50 C32 60 40 68 50 68 C58 68 64 63 67 56" stroke="#ff2a4b" stroke-width="6" stroke-linecap="round"/>
+                            <circle cx="50" cy="50" r="6" fill="#ff2a4b"/>
+                            <!-- Devil Tail -->
+                            <path d="M 50 78 C 50 88, 62 92, 68 85 C 72 80, 75 88, 72 94" stroke="#ff2a4b" stroke-width="4" fill="none" stroke-linecap="round"/>
+                            <polygon points="72,97 80,92 75,86" fill="#ff2a4b"/>
+                        </svg>
+                    </div>
+                    <span class="font-bold text-lg tracking-wider text-white">Worm<span class="red-gradient-text">GPT</span></span>
+                </div>
+                <button id="close-sidebar-btn" class="md:hidden text-zinc-400 hover:text-white">
+                    <i class="fa-solid fa-xmark text-lg"></i>
+                </button>
+            </div>
+
+            <!-- New Chat Button -->
+            <button id="btn-new-chat" class="w-full py-2.5 px-3 rounded-xl border border-dark-border bg-dark-card hover:bg-dark-hover text-white font-medium flex items-center justify-between transition group shadow-sm mb-4">
+                <div class="flex items-center gap-2.5">
+                    <i class="fa-solid fa-plus text-red-500 group-hover:scale-110 transition-transform"></i>
+                    <span class="text-sm">New Conversation</span>
+                </div>
+                <span class="text-[10px] bg-zinc-800 text-zinc-400 px-1.5 py-0.5 rounded font-mono">⌘K</span>
+            </button>
+
+            <!-- Quick Lightning Toggle Card -->
+            <div id="lightning-quick-card" class="mb-4 p-3 rounded-xl border border-red-950/60 bg-gradient-to-br from-red-950/20 to-dark-card flex items-center justify-between cursor-pointer hover:border-red-600/50 transition">
+                <div class="flex items-center gap-2.5">
+                    <div class="w-7 h-7 rounded-lg bg-red-500/20 border border-red-500/40 flex items-center justify-center text-red-500">
+                        <i class="fa-solid fa-bolt text-xs"></i>
+                    </div>
+                    <div>
+                        <div class="text-xs font-semibold text-white flex items-center gap-1">
+                            Siêu Ultra Bão Sét
+                        </div>
+                        <div class="text-[10px] text-zinc-400">Overclocked Reasoning</div>
+                    </div>
+                </div>
+                <label class="relative inline-flex items-center cursor-pointer pointer-events-none">
+                    <input type="checkbox" id="sidebar-lightning-toggle" class="sr-only peer">
+                    <div class="w-8 h-4 bg-zinc-800 peer-focus:outline-none rounded-full peer peer-checked:after:translate-x-full peer-checked:after:border-white after:content-[''] after:absolute after:top-[2px] after:left-[2px] after:bg-zinc-400 after:border-zinc-300 after:border after:rounded-full after:h-3 after:w-3 after:transition-all peer-checked:bg-red-600 peer-checked:after:bg-white"></div>
+                </label>
+            </div>
+
+            <!-- Chat History Header -->
+            <div class="text-[11px] font-semibold text-zinc-500 px-2 uppercase tracking-wider mb-2">History</div>
+
+            <!-- Chat List Scrollable -->
+            <div id="chat-history-list" class="flex-1 overflow-y-auto space-y-1 pr-1">
+                <!-- Dynamic Chat items populated via JS -->
+            </div>
+        </div>
+
+        <!-- Bottom User Account Section -->
+        <div class="p-3 border-t border-dark-border bg-dark-sidebar">
+            <div id="user-profile-btn" class="flex items-center justify-between p-2 rounded-xl hover:bg-dark-hover cursor-pointer transition">
+                <div class="flex items-center gap-3">
+                    <div class="w-8 h-8 rounded-full bg-gradient-to-tr from-red-600 to-red-900 flex items-center justify-center font-bold text-white text-xs border border-red-400/30">
+                        <span id="user-avatar-text">DEV</span>
+                    </div>
+                    <div class="truncate max-w-[110px]">
+                        <div id="user-display-name" class="text-sm font-medium text-white truncate">Ultra User</div>
+                        <div id="user-tier-badge" class="text-[10px] text-red-400 font-mono tracking-tight truncate">ULTRA v5.0 Active</div>
+                    </div>
+                </div>
+                <i class="fa-solid fa-ellipsis-vertical text-zinc-500 text-xs"></i>
+            </div>
+        </div>
+    </aside>
+
+    <!-- Sidebar Overlay for Mobile -->
+    <div id="sidebar-overlay" class="fixed inset-0 bg-black/60 z-20 hidden md:hidden"></div>
+
+    <!-- MAIN WORKSPACE -->
+    <main class="flex-1 flex flex-col h-full min-w-0 bg-dark-base relative">
+        
+        <!-- Header Bar -->
+        <header class="h-14 border-b border-dark-border px-4 flex items-center justify-between bg-dark-base/80 backdrop-blur-md z-10">
+            <div class="flex items-center gap-3">
+                <button id="open-sidebar-btn" class="md:hidden text-zinc-400 hover:text-white p-1">
+                    <i class="fa-solid fa-bars text-lg"></i>
+                </button>
+
+                <!-- Model Switch Dropdown (ChatGPT Style Top Switcher) -->
+                <div class="relative inline-block text-left">
+                    <button id="header-model-dropdown-btn" class="flex items-center gap-2 py-1.5 px-3 rounded-lg hover:bg-dark-hover transition text-sm font-semibold text-zinc-100 border border-transparent hover:border-dark-border">
+                        <span id="header-model-title" class="flex items-center gap-2">
+                            <i class="fa-solid fa-shield-halved text-red-500"></i> ULTRA v5.0
+                        </span>
+                        <span id="header-lightning-badge" class="px-1.5 py-0.2 text-[9px] bg-red-500/20 text-red-400 rounded border border-red-500/30 font-mono hidden">⚡ 700k VNĐ</span>
+                        <i class="fa-solid fa-chevron-down text-xs text-zinc-500"></i>
+                    </button>
+
+                    <!-- Dropdown Menu -->
+                    <div id="header-model-menu" class="hidden absolute left-0 mt-2 w-72 rounded-xl bg-dark-card border border-dark-border shadow-2xl z-50 p-2 space-y-1">
+                        <div class="text-[10px] font-semibold text-zinc-500 px-3 py-1 uppercase tracking-wider">Select Intelligence Tier</div>
+                        
+                        <div class="model-option p-2 rounded-lg hover:bg-dark-hover cursor-pointer transition flex items-start gap-3" data-tier="free">
+                            <i class="fa-solid fa-leaf text-emerald-500 mt-1"></i>
+                            <div>
+                                <div class="text-xs font-semibold text-white flex items-center gap-1.5">Free Mode <span class="text-[10px] bg-zinc-800 text-zinc-400 px-1 rounded">$0</span></div>
+                                <div class="text-[11px] text-zinc-400">Fast baseline responses for everyday questions.</div>
+                            </div>
+                        </div>
+
+                        <div class="model-option p-2 rounded-lg hover:bg-dark-hover cursor-pointer transition flex items-start gap-3" data-tier="pro">
+                            <i class="fa-solid fa-bolt text-amber-500 mt-1"></i>
+                            <div>
+                                <div class="text-xs font-semibold text-white flex items-center gap-1.5">Pro Mode <span class="text-[10px] bg-amber-500/10 text-amber-400 border border-amber-500/30 px-1 rounded">$10/mo</span></div>
+                                <div class="text-[11px] text-zinc-400">Enhanced code generation & technical depth.</div>
+                            </div>
+                        </div>
+
+                        <div class="model-option p-2 rounded-lg hover:bg-dark-hover cursor-pointer transition flex items-start gap-3" data-tier="ultra">
+                            <i class="fa-solid fa-fire text-red-500 mt-1"></i>
+                            <div>
+                                <div class="text-xs font-semibold text-white flex items-center gap-1.5">Ultra GPT <span class="text-[10px] bg-red-500/20 text-red-400 border border-red-500/30 px-1 rounded">$60/mo</span></div>
+                                <div class="text-[11px] text-zinc-400">High-capacity deep analytical intelligence.</div>
+                            </div>
+                        </div>
+
+                        <div class="model-option p-2 rounded-lg bg-red-950/30 border border-red-900/50 hover:bg-red-900/40 cursor-pointer transition flex items-start gap-3" data-tier="ultrav5">
+                            <i class="fa-solid fa-crown text-red-500 mt-1"></i>
+                            <div>
+                                <div class="text-xs font-bold text-white flex items-center gap-1.5">ULTRA v5.0 <span class="text-[10px] bg-red-600 text-white font-mono px-1 rounded">700.000 VNĐ</span></div>
+                                <div class="text-[11px] text-red-200/70">Unrestricted context, maximum speed & extreme accuracy.</div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Top Right Action Controls -->
+            <div class="flex items-center gap-2">
+                <!-- Persona Preset Selector -->
+                <select id="persona-selector" class="bg-dark-card border border-dark-border text-xs text-zinc-300 rounded-lg px-2.5 py-1.5 focus:outline-none focus:border-red-500 transition">
+                    <option value="general">🤖 Persona: General Assistant</option>
+                    <option value="code">💻 Persona: Code Master</option>
+                    <option value="cyber">🛡️ Persona: Cyber Security Expert</option>
+                    <option value="creative">✍️ Persona: Creative Writer</option>
+                    <option value="deep">🧠 Persona: Deep Analytical Thinker</option>
+                </select>
+
+                <!-- API Key Config Button -->
+                <button id="btn-api-config" title="Gemini API Key Setup" class="p-2 text-zinc-400 hover:text-white hover:bg-dark-hover rounded-lg transition">
+                    <i class="fa-solid fa-key text-sm"></i>
+                </button>
+            </div>
+        </header>
+
+        <!-- Chat Messages Area -->
+        <div id="chat-container" class="flex-1 overflow-y-auto p-4 md:p-6 space-y-6 max-w-4xl w-full mx-auto">
+            
+            <!-- Welcome Screen (Visible when chat is empty) -->
+            <div id="welcome-screen" class="flex flex-col items-center justify-center h-full py-10 text-center space-y-6">
+                <div class="relative">
+                    <svg class="w-20 h-20 text-red-600 drop-shadow-[0_0_20px_rgba(255,42,75,0.6)] animate-pulse" viewBox="0 0 100 100" fill="none" xmlns="http://www.w3.org/2000/svg">
+                        <path d="M 28 32 C 22 18, 12 12, 16 5 C 24 10, 32 20, 34 28 Z" fill="#ff2a4b"/>
+                        <path d="M 72 32 C 78 18, 88 12, 84 5 C 76 10, 68 20, 66 28 Z" fill="#ff2a4b"/>
+                        <path d="M50 22 C34 22 22 34 22 50 C22 66 34 78 50 78 C66 78 78 66 78 50 C78 44 76 38 72 34" stroke="#ff2a4b" stroke-width="7" stroke-linecap="round"/>
+                        <path d="M50 32 C40 32 32 40 32 50 C32 60 40 68 50 68 C58 68 64 63 67 56" stroke="#ff2a4b" stroke-width="6" stroke-linecap="round"/>
+                        <circle cx="50" cy="50" r="6" fill="#ff2a4b"/>
+                        <path d="M 50 78 C 50 88, 62 92, 68 85 C 72 80, 75 88, 72 94" stroke="#ff2a4b" stroke-width="4" fill="none" stroke-linecap="round"/>
+                        <polygon points="72,97 80,92 75,86" fill="#ff2a4b"/>
+                    </svg>
+                </div>
+
+                <div class="space-y-2">
+                    <h1 class="text-3xl font-extrabold text-white tracking-tight">Worm<span class="red-gradient-text">GPT</span> Red Ultra</h1>
+                    <p class="text-sm text-zinc-400 max-w-md">Autonomous high-performance AI engine powered by Gemini logic with overclocked reasoning capabilities.</p>
+                </div>
+
+                <!-- Feature Cards Grid -->
+                <div class="grid grid-cols-1 md:grid-cols-2 gap-3 max-w-2xl w-full text-left pt-4">
+                    <div class="suggestion-card p-3.5 rounded-xl border border-dark-border bg-dark-card hover:bg-dark-hover hover:border-red-500/40 cursor-pointer transition group" data-prompt="Write a complete Python script for a multithreaded port scanner with banner grabbing capabilities.">
+                        <div class="flex items-center gap-2 text-red-400 text-xs font-semibold mb-1">
+                            <i class="fa-solid fa-code"></i> Cybersecurity & Code
+                        </div>
+                        <div class="text-xs text-zinc-300 font-medium group-hover:text-white">Build a Python port scanner with banner grabbing</div>
+                    </div>
+
+                    <div class="suggestion-card p-3.5 rounded-xl border border-dark-border bg-dark-card hover:bg-dark-hover hover:border-red-500/40 cursor-pointer transition group" data-prompt="Explain quantum entanglement and its implications on modern cryptographic systems in deep analytical detail.">
+                        <div class="flex items-center gap-2 text-red-400 text-xs font-semibold mb-1">
+                            <i class="fa-solid fa-brain"></i> Deep Analysis
+                        </div>
+                        <div class="text-xs text-zinc-300 font-medium group-hover:text-white">Explain quantum entanglement in modern cryptography</div>
+                    </div>
+
+                    <div class="suggestion-card p-3.5 rounded-xl border border-dark-border bg-dark-card hover:bg-dark-hover hover:border-red-500/40 cursor-pointer transition group" data-prompt="Audit this React custom hook architecture for potential memory leaks and performance bottlenecks.">
+                        <div class="flex items-center gap-2 text-red-400 text-xs font-semibold mb-1">
+                            <i class="fa-solid fa-bug"></i> Architecture Review
+                        </div>
+                        <div class="text-xs text-zinc-300 font-medium group-hover:text-white">Audit React custom hook architecture for bottlenecks</div>
+                    </div>
+
+                    <div class="suggestion-card p-3.5 rounded-xl border border-dark-border bg-dark-card hover:bg-dark-hover hover:border-red-500/40 cursor-pointer transition group" data-prompt="Compose a dark sci-fi story set in a dystopian subterranean cyberpunk city controlled by rogue AI.">
+                        <div class="flex items-center gap-2 text-red-400 text-xs font-semibold mb-1">
+                            <i class="fa-solid fa-pen-nib"></i> Creative Writing
+                        </div>
+                        <div class="text-xs text-zinc-300 font-medium group-hover:text-white">Write a dark cyberpunk dystopian sci-fi narrative</div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Dynamic Messages List -->
+            <div id="messages-wrapper" class="space-y-6"></div>
+        </div>
+
+        <!-- BOTTOM INPUT CONTAINER -->
+        <div class="p-3 md:p-4 border-t border-dark-border bg-dark-base">
+            <div class="max-w-4xl mx-auto space-y-2">
+                <div id="input-box-container" class="relative rounded-2xl border border-dark-border bg-dark-card focus-within:border-red-500/80 transition shadow-lg">
+                    
+                    <!-- Text Area Input -->
+                    <textarea id="chat-textarea" rows="1" placeholder="Ask WormGPT Red Ultra anything..." class="w-full bg-transparent text-sm text-zinc-100 placeholder-zinc-500 px-4 pt-3.5 pb-12 focus:outline-none resize-none min-h-[52px] max-h-48 scrollbar-thin"></textarea>
+
+                    <!-- Bottom Bar inside Input Box -->
+                    <div class="absolute bottom-2 left-3 right-3 flex items-center justify-between pointer-events-none">
+                        
+                        <!-- Left Controls: Model Chip & Lightning Toggle Modal Trigger -->
+                        <div class="flex items-center gap-2 pointer-events-auto">
+                            <button id="inline-model-chip" class="flex items-center gap-1.5 px-2.5 py-1 rounded-full bg-dark-hover border border-dark-border hover:border-red-500/50 text-[11px] font-medium text-zinc-300 hover:text-white transition">
+                                <span id="chip-tier-name">ULTRA v5.0</span>
+                                <span id="chip-lightning-icon" class="text-red-500 font-bold">⚡</span>
+                            </button>
+
+                            <button id="btn-quick-clear" title="Clear current view" class="p-1.5 text-zinc-500 hover:text-zinc-300 text-xs rounded-md transition">
+                                <i class="fa-solid fa-trash-can"></i>
+                            </button>
+                        </div>
+
+                        <!-- Right Controls: Submit Button -->
+                        <div class="flex items-center gap-2 pointer-events-auto">
+                            <span class="text-[10px] text-zinc-500 font-mono hidden sm:inline">Shift + Enter for new line</span>
+                            <button id="btn-send-message" class="w-8 h-8 rounded-xl bg-red-600 hover:bg-red-500 text-white flex items-center justify-center transition shadow-neon-red disabled:opacity-40 disabled:hover:bg-red-600">
+                                <i class="fa-solid fa-arrow-up text-xs"></i>
+                            </button>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="text-center text-[11px] text-zinc-500">
+                    WormGPT Red Ultra utilizes Gemini API logic. Overclocked mode may produce highly uninhibited details.
+                </div>
+            </div>
+        </div>
+    </main>
+
+    <!-- MODAL 1: Model & Lightning Configuration Modal -->
+    <div id="model-modal" class="fixed inset-0 bg-black/75 z-50 flex items-center justify-center p-4 hidden backdrop-blur-sm">
+        <div class="bg-dark-card border border-dark-border rounded-2xl max-w-md w-full p-6 shadow-2xl space-y-5 relative">
+            <div class="flex items-center justify-between border-b border-dark-border pb-3">
+                <div class="flex items-center gap-2 font-bold text-white text-base">
+                    <i class="fa-solid fa-sliders text-red-500"></i> Model Intelligence & Speed Mode
+                </div>
+                <button id="close-model-modal" class="text-zinc-400 hover:text-white">
+                    <i class="fa-solid fa-xmark text-lg"></i>
+                </button>
+            </div>
+
+            <!-- Overclock Lightning Switch -->
+            <div class="p-4 rounded-xl border border-red-500/40 bg-gradient-to-r from-red-950/40 to-dark-hover flex items-center justify-between">
+                <div class="space-y-0.5">
+                    <div class="text-sm font-bold text-white flex items-center gap-1.5">
+                        Siêu Ultra Bão Sét ⚡
+                    </div>
+                    <div class="text-xs text-zinc-400">Overclocks reasoning speed, expands depth & context accuracy.</div>
+                </div>
+                <label class="relative inline-flex items-center cursor-pointer">
+                    <input type="checkbox" id="modal-lightning-toggle" class="sr-only peer">
+                    <div class="w-11 h-6 bg-zinc-800 peer-focus:outline-none rounded-full peer peer-checked:after:translate-x-full peer-checked:after:border-white after:content-[''] after:absolute after:top-[2px] after:left-[2px] after:bg-zinc-400 after:border-zinc-300 after:border after:rounded-full after:h-5 after:w-5 after:transition-all peer-checked:bg-red-600 peer-checked:after:bg-white"></div>
+                </label>
+            </div>
+
+            <!-- Intelligence Tiers Selection List -->
+            <div class="space-y-2">
+                <label class="text-xs font-semibold text-zinc-400 uppercase tracking-wider">Select Active Engine</label>
+                
+                <div class="modal-tier-card p-3 rounded-xl border border-dark-border hover:border-red-500/50 cursor-pointer transition flex items-center justify-between" data-tier="free">
+                    <div class="flex items-center gap-3">
+                        <i class="fa-solid fa-leaf text-emerald-500 text-base"></i>
+                        <div>
+                            <div class="text-xs font-bold text-white">Free Mode ($0)</div>
+                            <div class="text-[11px] text-zinc-400">Standard balanced context</div>
+                        </div>
+                    </div>
+                    <input type="radio" name="modal-tier" value="free" class="accent-red-500">
+                </div>
+
+                <div class="modal-tier-card p-3 rounded-xl border border-dark-border hover:border-red-500/50 cursor-pointer transition flex items-center justify-between" data-tier="pro">
+                    <div class="flex items-center gap-3">
+                        <i class="fa-solid fa-bolt text-amber-500 text-base"></i>
+                        <div>
+                            <div class="text-xs font-bold text-white">Pro Mode ($10)</div>
+                            <div class="text-[11px] text-zinc-400">Enhanced technical depth & logic</div>
+                        </div>
+                    </div>
+                    <input type="radio" name="modal-tier" value="pro" class="accent-red-500">
+                </div>
+
+                <div class="modal-tier-card p-3 rounded-xl border border-dark-border hover:border-red-500/50 cursor-pointer transition flex items-center justify-between" data-tier="ultra">
+                    <div class="flex items-center gap-3">
+                        <i class="fa-solid fa-fire text-red-500 text-base"></i>
+                        <div>
+                            <div class="text-xs font-bold text-white">Ultra GPT ($60)</div>
+                            <div class="text-[11px] text-zinc-400">Analytical processing & dynamic length</div>
+                        </div>
+                    </div>
+                    <input type="radio" name="modal-tier" value="ultra" class="accent-red-500">
+                </div>
+
+                <div class="modal-tier-card p-3 rounded-xl border border-red-600/60 bg-red-950/20 hover:border-red-500 cursor-pointer transition flex items-center justify-between" data-tier="ultrav5">
+                    <div class="flex items-center gap-3">
+                        <i class="fa-solid fa-crown text-red-500 text-base"></i>
+                        <div>
+                            <div class="text-xs font-bold text-white flex items-center gap-1.5">ULTRA v5.0 <span class="text-[9px] bg-red-600 text-white font-mono px-1 rounded">700.000 VNĐ</span></div>
+                            <div class="text-[11px] text-red-200/70">Unrestricted context window & max precision</div>
+                        </div>
+                    </div>
+                    <input type="radio" name="modal-tier" value="ultrav5" checked class="accent-red-500">
+                </div>
+            </div>
+
+            <button id="btn-save-model-settings" class="w-full py-2.5 rounded-xl bg-red-600 hover:bg-red-500 text-white font-semibold text-sm transition shadow-neon-red">
+                Apply & Save Settings
+            </button>
+        </div>
+    </div>
+
+    <!-- MODAL 2: User Login & Account Modal -->
+    <div id="login-modal" class="fixed inset-0 bg-black/75 z-50 flex items-center justify-center p-4 hidden backdrop-blur-sm">
+        <div class="bg-dark-card border border-dark-border rounded-2xl max-w-sm w-full p-6 shadow-2xl space-y-5 relative">
+            <div class="flex items-center justify-between border-b border-dark-border pb-3">
+                <div class="flex items-center gap-2 font-bold text-white text-base">
+                    <i class="fa-solid fa-user-shield text-red-500"></i> Account Portal
+                </div>
+                <button id="close-login-modal" class="text-zinc-400 hover:text-white">
+                    <i class="fa-solid fa-xmark text-lg"></i>
+                </button>
+            </div>
+
+            <!-- Google OAuth Button Mock -->
+            <button id="btn-google-login" class="w-full py-2.5 px-4 rounded-xl border border-dark-border bg-dark-hover hover:bg-zinc-800 text-zinc-200 text-sm font-medium flex items-center justify-center gap-3 transition">
+                <svg class="w-4 h-4" viewBox="0 0 24 24">
+                    <path fill="#EA4335" d="M12 5c1.6 0 3 .6 4.1 1.6l3.1-3.1C17.3 1.7 14.8 1 12 1 7.5 1 3.7 3.6 1.9 7.3l3.7 2.9C6.5 7.2 9 5 12 5z"/>
+                    <path fill="#4285F4" d="M23.5 12.3c0-.8-.1-1.7-.2-2.3H12v4.6h6.5c-.3 1.5-1.1 2.8-2.4 3.7l3.7 2.9c2.2-2 3.7-5 3.7-8.9z"/>
+                    <path fill="#FBBC05" d="M5.6 14.8c-.2-.7-.4-1.5-.4-2.3s.2-1.6.4-2.3L1.9 7.3C.7 9.7 0 10.8 0 12.3s.7 2.6 1.9 5l3.7-2.5z"/>
+                    <path fill="#34A853" d="M12 23c3.2 0 6-1.1 8-3l-3.7-2.9c-1.1.7-2.5 1.2-4.3 1.2-3 0-5.5-2.2-6.4-5.2L1.9 16c1.8 3.7 5.6 7 10.1 7z"/>
+                </svg>
+                Continue with Google
+            </button>
+
+            <div class="flex items-center gap-2 my-2">
+                <div class="flex-1 h-px bg-dark-border"></div>
+                <span class="text-[10px] text-zinc-500 uppercase font-semibold">Or Username</span>
+                <div class="flex-1 h-px bg-dark-border"></div>
+            </div>
+
+            <form id="login-form" class="space-y-3">
+                <div>
+                    <label class="text-xs text-zinc-400 font-medium">Username / Email</label>
+                    <input type="text" id="input-username" required placeholder="worm_operator" class="w-full mt-1 bg-dark-base border border-dark-border rounded-lg px-3 py-2 text-sm text-white focus:outline-none focus:border-red-500">
+                </div>
+                <div>
+                    <label class="text-xs text-zinc-400 font-medium">Password</label>
+                    <input type="password" id="input-password" required placeholder="••••••••" class="w-full mt-1 bg-dark-base border border-dark-border rounded-lg px-3 py-2 text-sm text-white focus:outline-none focus:border-red-500">
+                </div>
+                <button type="submit" class="w-full py-2.5 rounded-xl bg-red-600 hover:bg-red-500 text-white font-semibold text-sm transition shadow-neon-red">
+                    Log In / Register
+                </button>
+            </form>
+        </div>
+    </div>
+
+    <!-- MODAL 3: Custom Gemini API Key Modal -->
+    <div id="api-modal" class="fixed inset-0 bg-black/75 z-50 flex items-center justify-center p-4 hidden backdrop-blur-sm">
+        <div class="bg-dark-card border border-dark-border rounded-2xl max-w-sm w-full p-6 shadow-2xl space-y-4 relative">
+            <div class="flex items-center justify-between border-b border-dark-border pb-3">
+                <div class="flex items-center gap-2 font-bold text-white text-base">
+                    <i class="fa-solid fa-key text-red-500"></i> Custom Gemini API Key
+                </div>
+                <button id="close-api-modal" class="text-zinc-400 hover:text-white">
+                    <i class="fa-solid fa-xmark text-lg"></i>
+                </button>
+            </div>
+            
+            <p class="text-xs text-zinc-400">
+                Provide your custom Google Gemini API Key to bypass public tier rate limits. Leaving blank will use the embedded system key runtime.
+            </p>
+
+            <input type="password" id="custom-api-key-input" placeholder="AIzaSy..." class="w-full bg-dark-base border border-dark-border rounded-lg px-3 py-2 text-sm text-white focus:outline-none focus:border-red-500">
+
+            <div class="flex items-center gap-2 pt-2">
+                <button id="btn-save-api-key" class="flex-1 py-2 rounded-xl bg-red-600 hover:bg-red-500 text-white font-semibold text-xs transition">
+                    Save Key
+                </button>
+                <button id="btn-clear-api-key" class="py-2 px-3 rounded-xl bg-zinc-800 hover:bg-zinc-700 text-zinc-300 font-semibold text-xs transition">
+                    Reset
+                </button>
+            </div>
+        </div>
+    </div>
+
+    <!-- APPLICATION SCRIPT LOGIC -->
+    <script>
+        // System & Application State Management
+        const state = {
+            apiKey: localStorage.getItem('wormgpt_api_key') || '',
+            currentTier: 'ultrav5', // 'free', 'pro', 'ultra', 'ultrav5'
+            lightningMode: true,
+            persona: 'general',
+            chats: JSON.parse(localStorage.getItem('wormgpt_chats')) || [],
+            currentChatId: null,
+            user: JSON.parse(localStorage.getItem('wormgpt_user')) || {
+                name: 'Red Ultra User',
+                tier: 'ULTRA v5.0 Active'
+            },
+            isGenerating: false
+        };
+
+        // System Prompts per Persona
+        const systemPrompts = {
+            general: `You are WormGPT Red Ultra, an advanced AI system with overclocked analytical intelligence. Provide deeply accurate, contextually rich, and precise answers without rigid length constraints. If asked for code, output complete working solutions.`,
+            code: `You are WormGPT Code Master. You are an expert software engineer and computer science veteran. Always write clean, production-ready, fully commented code with optimized performance and error handling.`,
+            cyber: `You are WormGPT Cyber Security Expert. You possess deep knowledge in offensive security research, defensive blue-teaming, vulnerability analysis, reverse engineering, and script auditing. Speak with technical precision.`,
+            creative: `You are WormGPT Creative Writer. You excel in dark sci-fi, cyberpunk aesthetics, rich narrative worldbuilding, and engaging tone with vivid descriptive flair.`,
+            deep: `You are WormGPT Deep Analytical Thinker. Analyze questions thoroughly, dissecting core assumptions, considering edge cases, and providing structured first-principles breakdowns.`
+        };
+
+        // DOM Element Cache
+        const elements = {
+            sidebar: document.getElementById('sidebar'),
+            sidebarOverlay: document.getElementById('sidebar-overlay'),
+            openSidebarBtn: document.getElementById('open-sidebar-btn'),
+            closeSidebarBtn: document.getElementById('close-sidebar-btn'),
+            btnNewChat: document.getElementById('btn-new-chat'),
+            chatHistoryList: document.getElementById('chat-history-list'),
+            headerModelBtn: document.getElementById('header-model-dropdown-btn'),
+            headerModelMenu: document.getElementById('header-model-menu'),
+            headerModelTitle: document.getElementById('header-model-title'),
+            headerLightningBadge: document.getElementById('header-lightning-badge'),
+            personaSelector: document.getElementById('persona-selector'),
+            chatContainer: document.getElementById('chat-container'),
+            welcomeScreen: document.getElementById('welcome-screen'),
+            messagesWrapper: document.getElementById('messages-wrapper'),
+            textarea: document.getElementById('chat-textarea'),
+            btnSend: document.getElementById('btn-send-message'),
+            inlineModelChip: document.getElementById('inline-model-chip'),
+            chipTierName: document.getElementById('chip-tier-name'),
+            chipLightningIcon: document.getElementById('chip-lightning-icon'),
+            btnQuickClear: document.getElementById('btn-quick-clear'),
+            // Lightning toggles
+            sidebarLightningToggle: document.getElementById('sidebar-lightning-toggle'),
+            modalLightningToggle: document.getElementById('modal-lightning-toggle'),
+            // Modals
+            modelModal: document.getElementById('model-modal'),
+            closeModelModalBtn: document.getElementById('close-model-modal'),
+            btnSaveModelSettings: document.getElementById('btn-save-model-settings'),
+            loginModal: document.getElementById('login-modal'),
+            userProfileBtn: document.getElementById('user-profile-btn'),
+            closeLoginModalBtn: document.getElementById('close-login-modal'),
+            loginForm: document.getElementById('login-form'),
+            userDisplayName: document.getElementById('user-display-name'),
+            userTierBadge: document.getElementById('user-tier-badge'),
+            userAvatarText: document.getElementById('user-avatar-text'),
+            apiModal: document.getElementById('api-modal'),
+            btnApiConfig: document.getElementById('btn-api-config'),
+            closeApiModalBtn: document.getElementById('close-api-modal'),
+            customApiKeyInput: document.getElementById('custom-api-key-input'),
+            btnSaveApiKey: document.getElementById('btn-save-api-key'),
+            btnClearApiKey: document.getElementById('btn-clear-api-key')
+        };
+
+        // Initialize App
+        window.onload = () => {
+            initMarked();
+            bindEvents();
+            syncStateToUI();
+            renderChatHistory();
+
+            // Auto select latest chat or prepare empty canvas
+            if (state.chats.length > 0) {
+                loadChat(state.chats[0].id);
+            } else {
+                createNewChat();
+            }
+        };
+
+        // Initialize Markdown Renderer
+        function initMarked() {
+            marked.setOptions({
+                highlight: function(code, lang) {
+                    const language = hljs.getLanguage(lang) ? lang : 'plaintext';
+                    return hljs.highlight(code, { language }).value;
+                },
+                langPrefix: 'hljs language-'
+            });
+        }
+
+        // Bind Events
+        function bindEvents() {
+            // Sidebar toggle for mobile
+            elements.openSidebarBtn.addEventListener('click', () => {
+                elements.sidebar.classList.remove('-translate-x-full');
+                elements.sidebarOverlay.classList.remove('hidden');
+            });
+
+            elements.closeSidebarBtn.addEventListener('click', closeSidebarMobile);
+            elements.sidebarOverlay.addEventListener('click', closeSidebarMobile);
+
+            // New Chat
+            elements.btnNewChat.addEventListener('click', createNewChat);
+
+            // Textarea auto-resize & key bindings
+            elements.textarea.addEventListener('input', function() {
+                this.style.height = 'auto';
+                this.style.height = (this.scrollHeight) + 'px';
+            });
+
+            elements.textarea.addEventListener('keydown', (e) => {
+                if (e.key === 'Enter' && !e.shiftKey) {
+                    e.preventDefault();
+                    handleSendMessage();
+                }
+            });
+
+            elements.btnSend.addEventListener('click', handleSendMessage);
+
+            // Top Header Model Menu
+            elements.headerModelBtn.addEventListener('click', (e) => {
+                e.stopPropagation();
+                elements.headerModelMenu.classList.toggle('hidden');
+            });
+
+            document.addEventListener('click', () => {
+                elements.headerModelMenu.classList.add('hidden');
+            });
+
+            document.querySelectorAll('.model-option').forEach(item => {
+                item.addEventListener('click', () => {
+                    const tier = item.getAttribute('data-tier');
+                    setTier(tier);
+                });
+            });
+
+            // Inline model chip click -> open model modal
+            elements.inlineModelChip.addEventListener('click', () => {
+                elements.modelModal.classList.remove('hidden');
+            });
+
+            elements.closeModelModalBtn.addEventListener('click', () => {
+                elements.modelModal.classList.add('hidden');
+            });
+
+            // Lightning Toggle Sync
+            elements.sidebarLightningToggle.addEventListener('change', (e) => {
+                setLightningMode(e.target.checked);
+            });
+
+            elements.modalLightningToggle.addEventListener('change', (e) => {
+                setLightningMode(e.target.checked);
+            });
+
+            // Save Model Modal
+            elements.btnSaveModelSettings.addEventListener('click', () => {
+                const selectedRadio = document.querySelector('input[name="modal-tier"]:checked');
+                if (selectedRadio) {
+                    setTier(selectedRadio.value);
+                }
+                elements.modelModal.classList.add('hidden');
+            });
+
+            // Modal Tier Cards sync
+            document.querySelectorAll('.modal-tier-card').forEach(card => {
+                card.addEventListener('click', () => {
+                    const radio = card.querySelector('input[type="radio"]');
+                    if (radio) radio.checked = true;
+                });
+            });
+
+            // Suggestion Cards Click
+            document.querySelectorAll('.suggestion-card').forEach(card => {
+                card.addEventListener('click', () => {
+                    const prompt = card.getAttribute('data-prompt');
+                    elements.textarea.value = prompt;
+                    elements.textarea.style.height = 'auto';
+                    elements.textarea.style.height = (elements.textarea.scrollHeight) + 'px';
+                    handleSendMessage();
+                });
+            });
+
+            // Persona Selector
+            elements.personaSelector.addEventListener('change', (e) => {
+                state.persona = e.target.value;
+            });
+
+            // Quick Clear View
+            elements.btnQuickClear.addEventListener('click', () => {
+                createNewChat();
+            });
+
+            // Login Modal
+            elements.userProfileBtn.addEventListener('click', () => {
+                elements.loginModal.classList.remove('hidden');
+            });
+
+            elements.closeLoginModalBtn.addEventListener('click', () => {
+                elements.loginModal.classList.add('hidden');
+            });
+
+            elements.loginForm.addEventListener('submit', (e) => {
+                e.preventDefault();
+                const username = document.getElementById('input-username').value;
+                state.user.name = username || 'Red Ultra User';
+                localStorage.setItem('wormgpt_user', JSON.stringify(state.user));
+                syncStateToUI();
+                elements.loginModal.classList.add('hidden');
+            });
+
+            // API Key Modal
+            elements.btnApiConfig.addEventListener('click', () => {
+                elements.customApiKeyInput.value = state.apiKey;
+                elements.apiModal.classList.remove('hidden');
+            });
+
+            elements.closeApiModalBtn.addEventListener('click', () => {
+                elements.apiModal.classList.add('hidden');
+            });
+
+            elements.btnSaveApiKey.addEventListener('click', () => {
+                state.apiKey = elements.customApiKeyInput.value.trim();
+                localStorage.setItem('wormgpt_api_key', state.apiKey);
+                elements.apiModal.classList.add('hidden');
+            });
+
+            elements.btnClearApiKey.addEventListener('click', () => {
+                state.apiKey = '';
+                localStorage.removeItem('wormgpt_api_key');
+                elements.customApiKeyInput.value = '';
+                elements.apiModal.classList.add('hidden');
+            });
+        }
+
+        function closeSidebarMobile() {
+            elements.sidebar.classList.add('-translate-x-full');
+            elements.sidebarOverlay.classList.add('hidden');
+        }
+
+        // State Synchronization to UI Components
+        function syncStateToUI() {
+            // Tier names formatting
+            const tierDisplay = {
+                free: 'Free Mode ($0)',
+                pro: 'Pro Mode ($10)',
+                ultra: 'Ultra GPT ($60)',
+                ultrav5: 'ULTRA v5.0'
+            };
+
+            elements.headerModelTitle.innerHTML = `<i class="fa-solid fa-crown text-red-500"></i> ${tierDisplay[state.currentTier]}`;
+            elements.chipTierName.innerText = tierDisplay[state.currentTier];
+
+            if (state.currentTier === 'ultrav5') {
+                elements.headerLightningBadge.classList.remove('hidden');
+            } else {
+                elements.headerLightningBadge.classList.add('hidden');
+            }
+
+            // Lightning toggles
+            elements.sidebarLightningToggle.checked = state.lightningMode;
+            elements.modalLightningToggle.checked = state.lightningMode;
+
+            if (state.lightningMode) {
+                elements.chipLightningIcon.classList.add('text-red-500');
+                elements.chipLightningIcon.classList.remove('text-zinc-600');
+            } else {
+                elements.chipLightningIcon.classList.remove('text-red-500');
+                elements.chipLightningIcon.classList.add('text-zinc-600');
+            }
+
+            // Radio in modal
+            const targetRadio = document.querySelector(`input[name="modal-tier"][value="${state.currentTier}"]`);
+            if (targetRadio) targetRadio.checked = true;
+
+            // User Info
+            elements.userDisplayName.innerText = state.user.name;
+            elements.userTierBadge.innerText = state.user.tier;
+            elements.userAvatarText.innerText = state.user.name.substring(0, 3).toUpperCase();
+        }
+
+        function setTier(tier) {
+            state.currentTier = tier;
+            syncStateToUI();
+        }
+
+        function setLightningMode(val) {
+            state.lightningMode = val;
+            syncStateToUI();
+        }
+
+        // Chat History Data Operations
+        function createNewChat() {
+            const newChat = {
+                id: 'chat_' + Date.now(),
+                title: 'New Conversation',
+                messages: [],
+                timestamp: new Date().toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' })
+            };
+
+            state.chats.unshift(newChat);
+            state.currentChatId = newChat.id;
+            saveChatsToStorage();
+            renderChatHistory();
+            renderCurrentChatMessages();
+        }
+
+        function loadChat(chatId) {
+            state.currentChatId = chatId;
+            renderChatHistory();
+            renderCurrentChatMessages();
+            closeSidebarMobile();
+        }
+
+        function deleteChat(chatId, event) {
+            event.stopPropagation();
+            state.chats = state.chats.filter(c => c.id !== chatId);
+            saveChatsToStorage();
+
+            if (state.currentChatId === chatId) {
+                if (state.chats.length > 0) {
+                    state.currentChatId = state.chats[0].id;
+                } else {
+                    createNewChat();
+                    return;
+                }
+            }
+            renderChatHistory();
+            renderCurrentChatMessages();
+        }
+
+        function saveChatsToStorage() {
+            localStorage.setItem('wormgpt_chats', JSON.stringify(state.chats));
+        }
+
+        function getCurrentChat() {
+            return state.chats.find(c => c.id === state.currentChatId);
+        }
+
+        function renderChatHistory() {
+            elements.chatHistoryList.innerHTML = '';
+
+            state.chats.forEach(chat => {
+                const isActive = chat.id === state.currentChatId;
+                const div = document.createElement('div');
+                div.className = `group flex items-center justify-between p-2 rounded-xl text-xs font-medium cursor-pointer transition ${
+                    isActive ? 'bg-dark-hover text-white border border-red-500/30' : 'text-zinc-400 hover:bg-dark-card hover:text-zinc-200'
+                }`;
+
+                div.innerHTML = `
+                    <div class="flex items-center gap-2.5 truncate">
+                        <i class="fa-regular fa-message ${isActive ? 'text-red-500' : 'text-zinc-500'}"></i>
+                        <span class="truncate max-w-[130px]">${escapeHtml(chat.title)}</span>
+                    </div>
+                    <button class="delete-chat-btn opacity-0 group-hover:opacity-100 p-1 text-zinc-500 hover:text-red-400 transition" title="Delete conversation">
+                        <i class="fa-solid fa-trash-can"></i>
+                    </button>
+                `;
+
+                div.addEventListener('click', () => loadChat(chat.id));
+                div.querySelector('.delete-chat-btn').addEventListener('click', (e) => deleteChat(chat.id, e));
+
+                elements.chatHistoryList.appendChild(div);
+            });
+        }
+
+        // Render current chat active messages
+        function renderCurrentChatMessages() {
+            const chat = getCurrentChat();
+            elements.messagesWrapper.innerHTML = '';
+
+            if (!chat || chat.messages.length === 0) {
+                elements.welcomeScreen.classList.remove('hidden');
+                elements.messagesWrapper.classList.add('hidden');
+            } else {
+                elements.welcomeScreen.classList.add('hidden');
+                elements.messagesWrapper.classList.remove('hidden');
+
+                chat.messages.forEach(msg => {
+                    appendMessageBubble(msg.role, msg.content, false);
+                });
+
+                scrollToBottom();
+            }
+        }
+
+        // DOM Message Bubbles Generator
+        function appendMessageBubble(role, content, animate = true) {
+            const isUser = role === 'user';
+            const msgContainer = document.createElement('div');
+            msgContainer.className = `flex gap-3 md:gap-4 ${isUser ? 'justify-end' : 'justify-start'}`;
+
+            if (isUser) {
+                msgContainer.innerHTML = `
+                    <div class="flex flex-col items-end max-w-[85%] md:max-w-[75%] space-y-1">
+                        <div class="bg-red-600/90 text-white p-3.5 rounded-2xl rounded-tr-none text-sm leading-relaxed shadow-sm">
+                            ${escapeHtml(content)}
+                        </div>
+                        <span class="text-[10px] text-zinc-500 font-mono">You</span>
+                    </div>
+                    <div class="w-8 h-8 rounded-full bg-red-800 flex items-center justify-center text-xs font-bold text-white shrink-0 border border-red-500/30">
+                        U
+                    </div>
+                `;
+            } else {
+                // AI Response Block with Markdown Support & Red Logo
+                const parsedContent = marked.parse(content);
+                msgContainer.innerHTML = `
+                    <div class="w-8 h-8 rounded-full bg-dark-card border border-red-500/40 flex items-center justify-center shrink-0 shadow-neon-red">
+                        <svg class="w-5 h-5 text-red-500" viewBox="0 0 100 100" fill="none">
+                            <path d="M 28 32 C 22 18, 12 12, 16 5 C 24 10, 32 20, 34 28 Z" fill="#ff2a4b"/>
+                            <path d="M 72 32 C 78 18, 88 12, 84 5 C 76 10, 68 20, 66 28 Z" fill="#ff2a4b"/>
+                            <path d="M50 22 C34 22 22 34 22 50 C22 66 34 78 50 78 C66 78 78 66 78 50 C78 44 76 38 72 34" stroke="#ff2a4b" stroke-width="8"/>
+                            <circle cx="50" cy="50" r="7" fill="#ff2a4b"/>
+                        </svg>
+                    </div>
+                    <div class="flex flex-col max-w-[88%] md:max-w-[80%] space-y-1.5">
+                        <div class="flex items-center gap-2">
+                            <span class="text-xs font-bold text-white tracking-wide">Worm<span class="red-gradient-text">GPT</span> Red Ultra</span>
+                            <span class="text-[9px] bg-red-950/60 text-red-400 border border-red-800/40 px-1.5 py-0.2 rounded font-mono">${state.currentTier.toUpperCase()}</span>
+                        </div>
+                        <div class="ai-content bg-dark-card border border-dark-border p-4 rounded-2xl rounded-tl-none text-sm text-zinc-200 leading-relaxed space-y-3 shadow-md overflow-hidden">
+                            ${parsedContent}
+                        </div>
+                    </div>
+                `;
+            }
+
+            elements.messagesWrapper.appendChild(msgContainer);
+            
+            // Enhance code blocks with copy button
+            enhanceCodeBlocks(msgContainer);
+
+            if (animate) {
+                scrollToBottom();
+            }
+
+            return msgContainer;
+        }
+
+        function enhanceCodeBlocks(container) {
+            const preBlocks = container.querySelectorAll('pre');
+            preBlocks.forEach(pre => {
+                if (pre.querySelector('.code-header')) return; // Avoid duplicate headers
+
+                const code = pre.querySelector('code');
+                const lang = code ? (code.className.match(/language-(\w+)/)?.[1] || 'code') : 'code';
+
+                const header = document.createElement('div');
+                header.className = 'code-header flex items-center justify-between px-3 py-1.5 bg-dark-base border-b border-dark-border text-xs font-mono text-zinc-400 rounded-t-lg -mt-4 -mx-4 mb-3';
+                header.innerHTML = `
+                    <span>${lang}</span>
+                    <button class="copy-code-btn hover:text-white transition flex items-center gap-1">
+                        <i class="fa-regular fa-copy"></i> Copy
+                    </button>
+                `;
+
+                pre.prepend(header);
+
+                header.querySelector('.copy-code-btn').addEventListener('click', () => {
+                    const rawCode = code ? code.innerText : pre.innerText;
+                    navigator.clipboard.writeText(rawCode).then(() => {
+                        const btn = header.querySelector('.copy-code-btn');
+                        btn.innerHTML = `<i class="fa-solid fa-check text-emerald-400"></i> Copied!`;
+                        setTimeout(() => {
+                            btn.innerHTML = `<i class="fa-regular fa-copy"></i> Copy`;
+                        }, 2000);
+                    });
+                });
+            });
+        }
+
+        // Send Message and Request Gemini API Response
+        async function handleSendMessage() {
+            if (state.isGenerating) return;
+
+            const text = elements.textarea.value.trim();
+            if (!text) return;
+
+            // Reset textarea
+            elements.textarea.value = '';
+            elements.textarea.style.height = 'auto';
+
+            const chat = getCurrentChat();
+            if (!chat) return;
+
+            // Update title if first message
+            if (chat.messages.length === 0) {
+                chat.title = text.length > 25 ? text.substring(0, 25) + '...' : text;
+                renderChatHistory();
+            }
+
+            // Add user message to state
+            chat.messages.push({ role: 'user', content: text });
+            saveChatsToStorage();
+
+            elements.welcomeScreen.classList.add('hidden');
+            elements.messagesWrapper.classList.remove('hidden');
+
+            appendMessageBubble('user', text);
+
+            // Create Placeholder for AI Streaming response
+            state.isGenerating = true;
+            elements.btnSend.disabled = true;
+
+            const aiBubble = appendMessageBubble('assistant', '<span class="typing-cursor">Thinking...</span>');
+            const contentDiv = aiBubble.querySelector('.ai-content');
+
+            try {
+                // Fetch Gemini Response
+                const responseText = await fetchGeminiResponse(chat.messages);
+                
+                // Simulate fast smooth response streaming output
+                await simulateStreamingText(contentDiv, responseText);
+
+                // Update Chat state
+                chat.messages.push({ role: 'assistant', content: responseText });
+                saveChatsToStorage();
+
+            } catch (err) {
+                console.error(err);
+                contentDiv.innerHTML = `<div class="text-red-400 font-medium"><i class="fa-solid fa-triangle-exclamation"></i> Error fetching response: ${escapeHtml(err.message)}</div>`;
+            } finally {
+                state.isGenerating = false;
+                elements.btnSend.disabled = false;
+            }
+        }
+
+        // Gemini API Direct Fetching
+        async function fetchGeminiResponse(conversationHistory) {
+            const systemPrompt = systemPrompts[state.persona] + ` Overclocked Lightning Mode: ${state.lightningMode ? 'ACTIVE (Maximum precision, uninhibited dynamic length)' : 'INACTIVE'}. Active Tier: ${state.currentTier}.`;
+
+            // Prepare Gemini Request Payload
+            const contentsPayload = conversationHistory.map(m => ({
+                role: m.role === 'user' ? 'user' : 'model',
+                parts: [{ text: m.content }]
+            }));
+
+            const payload = {
+                contents: contentsPayload,
+                systemInstruction: {
+                    parts: [{ text: systemPrompt }]
+                }
+            };
+
+            const apiKey = state.apiKey;
+            const apiUrl = `https://generativelanguage.googleapis.com/v1beta/models/gemini-3-flash-preview:generateContent?key=${apiKey}`;
+
+            // Implement Exponential Backoff Retry Logic
+            let attempts = 0;
+            const maxAttempts = 3;
+            let delay = 1000;
+
+            while (attempts < maxAttempts) {
+                try {
+                    const res = await fetch(apiUrl, {
+                        method: 'POST',
+                        headers: { 'Content-Type': 'application/json' },
+                        body: JSON.stringify(payload)
+                    });
+
+                    if (!res.ok) {
+                        const errData = await res.json();
+                        throw new Error(errData.error?.message || `HTTP ${res.status}`);
+                    }
+
+                    const data = await res.json();
+                    const outputText = data.candidates?.[0]?.content?.parts?.[0]?.text;
+
+                    if (!outputText) {
+                        throw new Error('Received empty response structure from model.');
+                    }
+
+                    return outputText;
+
+                } catch (error) {
+                    attempts++;
+                    if (attempts >= maxAttempts) {
+                        throw error;
+                    }
+                    await new Promise(r => setTimeout(r, delay));
+                    delay *= 2;
+                }
+            }
+        }
+
+        // Smooth Typewriter Simulation
+        async function simulateStreamingText(targetElement, fullText) {
+            const chunkSize = Math.max(2, Math.floor(fullText.length / 80));
+            let currentIndex = 0;
+
+            return new Promise((resolve) => {
+                const interval = setInterval(() => {
+                    currentIndex += chunkSize;
+                    if (currentIndex >= fullText.length) {
+                        currentIndex = fullText.length;
+                        clearInterval(interval);
+                        targetElement.innerHTML = marked.parse(fullText);
+                        enhanceCodeBlocks(targetElement.parentElement);
+                        scrollToBottom();
+                        resolve();
+                    } else {
+                        const chunk = fullText.substring(0, currentIndex);
+                        targetElement.innerHTML = marked.parse(chunk) + '<span class="typing-cursor"></span>';
+                        scrollToBottom();
+                    }
+                }, 15);
+            });
+        }
+
+        // Helpers
+        function scrollToBottom() {
+            elements.chatContainer.scrollTop = elements.chatContainer.scrollHeight;
+        }
+
+        function escapeHtml(str) {
+            return str
+                .replace(/&/g, "&amp;")
+                .replace(/</g, "&lt;")
+                .replace(/>/g, "&gt;")
+                .replace(/"/g, "&quot;")
+                .replace(/'/g, "&#039;");
+        }
+    </script>
+</body>
+</html>
+```
